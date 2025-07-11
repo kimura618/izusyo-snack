@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <style>
+      body { font-family: sans-serif; margin: 2em; }
+      label { display: block; margin: 10px 0 5px; }
+      input, select { width: 100%; padding: 8px; }
+      button { margin-top: 15px; padding: 10px; width: 100%; background: #4CAF50; color: white; border: none; }
+    </style>
+  </head>
+  <body>
+    <h2>方言グッズ注文フォーム</h2>
+    <form id="orderForm">
+      <label>お名前（ユーザー名）</label>
+      <input type="text" name="name" required>
+
+      <label>商品名</label>
+      <select name="product">
+        <option value="津軽弁トートバッグ">津軽弁トートバッグ</option>
+        <option value="博多弁ステッカー">博多弁ステッカー</option>
+        <option value="大阪弁マグカップ">大阪弁マグカップ</option>
+      </select>
+
+      <label>数量</label>
+      <input type="number" name="quantity" min="1" value="1" required>
+
+      <label>職員室（受け取り場所）</label>
+      <input type="text" name="room" required>
+
+      <button type="submit">注文する</button>
+    </form>
+
+    <p id="response" style="margin-top: 20px; font-weight: bold;"></p>
+
+    <script>
+      document.getElementById('orderForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const form = e.target;
+        const data = {
+          name: form.name.value,
+          product: form.product.value,
+          quantity: form.quantity.value,
+          room: form.room.value
+        };
+
+        google.script.run.withSuccessHandler(function(response) {
+          document.getElementById('response').innerText = response;
+          form.reset();
+        }).submitData(data);
+      });
+    </script>
+  </body>
+</html>
